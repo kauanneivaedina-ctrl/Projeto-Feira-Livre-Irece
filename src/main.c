@@ -1,11 +1,10 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "includes/feirante.h"
 
 void exibirMenu() {
+    system("cls");
     printf("=========================================\n");
-    printf("\n=== SISTEMA DA FEIRA LIVRE DE IRECE ===\n");
-    printf("===========Escolha uma opcao:============\n");
+    printf("==== SISTEMA DA FEIRA LIVRE DE IRECE ====\n");
+    printf("=========================================\n\n");
     printf("------------ Gerenciamento --------------\n");
     printf("1. Cadastrar feirante\n");
     printf("2. Listar todos os feirantes\n");
@@ -27,14 +26,17 @@ void exibirMenu() {
     printf("12. Salvar dados em arquivo\n");
     printf("13. Carregar dados do arquivo\n");
     printf("0. Sair\n");
+    printf("-----------------------------------------\n\n");
+    printf("ESCOLHA UMA OPCAO: ");
 }
 
 int main() {
-    Feirante *feirantes = NULL;     //variaveis de controle do vetor dinamico
-    int quantidade = 0;             //
+    Feirante *feirantes = NULL;     //variaveis de controle do vetor dinamico feirantes
+    int quantidade = 0;       
+    
+    ProdutoFeira prodVazio = {"",0,0};
 
     int opcao;
-
     do {
         exibirMenu();
         if (scanf("%d", &opcao) != 1) {
@@ -45,11 +47,17 @@ int main() {
 
         switch (opcao) {
             case 1:
-                //cadastrar feirante no vtor
+                if(adicionarAoVetor(&feirantes, &quantidade, *cadastrarFeirante(001, "Joao", 001, "Segunda-feira", prodVazio, 0))) {
+                    printf("Feirante cadastrado com sucesso!\n");
+                } else {
+                    printf("Erro ao cadastrar feirante.\n");
+                }
+                system("pause");
                 break;
 
             case 2:
-                //listar todos
+                listarTodos(feirantes, quantidade);
+                system("pause");
                 break;
 
             case 3:
@@ -103,10 +111,10 @@ int main() {
             default:
                 printf("\nOpcao invalida! Tente novamente.\n");
         }
-
     } while (opcao != 0);
 
-    liberarFeirantes(&feirantes, &quantidade);
+    printf("DEBUG quantidade: %d\n\n", quantidade);
 
+    liberarFeirantes(&feirantes, &quantidade); // Liberar memória alocada para o vetor de feirantes
     return 0;
 }

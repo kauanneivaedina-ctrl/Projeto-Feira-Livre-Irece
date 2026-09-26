@@ -1,3 +1,6 @@
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 #include "produto.h"
 
 typedef struct {
@@ -8,3 +11,8 @@ typedef struct {
     ProdutoFeira produtosVendidos[10];
     int quantidadeProdutos;
 } Feirante;
+
+int adicionarAoVetor();
+Feirante *cadastrarFeirante();
+void listarTodos();
+void liberarFeirantes();
