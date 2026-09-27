@@ -19,6 +19,8 @@ int adicionarAoVetor(Feirante **feirantes, int *quantidade, Feirante novoFeirant
 Feirante *cadastrarFeirante(int codigo, char nome[], int banca, char diaFeira[], ProdutoFeira produtosVendidos, int quantidadeProdutos);
 void listarTodos(Feirante feirantes[], int quantidade);
 Feirante *buscarPorCodigo(Feirante feirantes[], int quantidade, int codigoBuscado);
+void salvarFeirantes(Feirante feirantes[], int quantidade, char *nomeArquivo);
+int carregarFeirantes(Feirante **feirantes, int *quantidade, char *nomeArquivo);
 void liberarFeirantes(Feirante **feirantes, int *quantidade);
 
 #endif

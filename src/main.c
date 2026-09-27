@@ -121,12 +121,17 @@ int main() {
                 break;
 
             case 12:
-                //salvar em arquivo
+                salvarFeirantes(feirantes, quantidade, "data/feirantes.txt");
+                printf("Arquivo salvo com sucesso!\n");
+                system("pause");
                 break;
 
-            case 13:
-                //carregar de arquivo
+            case 13:{
+                int feirantes_carregados = carregarFeirantes(&feirantes, &quantidade, "data/feirantes.txt");
+                printf("%d feirantes foram carregados\n", feirantes_carregados);
+                system("pause");
                 break;
+            }
 
             case 0:
                 printf("\nEncerrando o sistema...\n");
