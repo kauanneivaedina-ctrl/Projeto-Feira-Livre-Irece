@@ -40,33 +40,15 @@ void listarTodos(Feirante feirantes[], int quantidade){
         printf("Codigo: %d\n", feirantes[i].codigo);
         printf("Banca: %d\n", feirantes[i].banca);
         printf("Dia da feira: %s\n", feirantes[i].diaFeira);
-        printf("---------------------------\n\n");
+        printf("-----Produtos vendidos-----:\n");
+        for(int j = 0; j < feirantes[i].quantidadeProdutos; j++){
+            printf("Produto: %s\n", feirantes[i].produtosVendidos[j].nome);
+            printf("Preco: %.2f\n", feirantes[i].produtosVendidos[j].preco);
+            printf("Quantidade vendida: %d\n", feirantes[i].produtosVendidos[j].quantidadeVendida);
+            printf("---------------------------\n");
+        }
+        printf("==================================\n\n");
     }
-}
-
-void liberarFeirantes(Feirante **feirantes, int *quantidade){
-    free(*feirantes);
-    *feirantes = NULL;
-    *quantidade = 0;
-}
-
-int adicionarProdutoNaBanca(Feirante *feirante, char *nome, float preco){
-    if(feirante == NULL){
-        printf("Erro: o ponteiro para o feirante é nulo.\n");
-        return 0; 
-    }
-    if(feirante->quantidadeProdutos >= 10){
-        printf("Erro: a banca do feirante %s já atingiu o limite de produtos.\n", feirante->nome);
-        return 0; 
-    }
-    int posicao = feirante->quantidadeProdutos;
-
-    strcpy(feirante->produtosVendidos[posicao].nome, nome);
-    feirante->produtosVendidos[posicao].preco = preco;
-    feirante->produtosVendidos[posicao].quantidadeVendida = 0;
-
-    feirante->quantidadeProdutos++;
-    return 1;
 }
 
 Feirante *buscarPorCodigo(Feirante feirantes[], int quantidade, int codigoBuscado){
@@ -78,19 +60,10 @@ Feirante *buscarPorCodigo(Feirante feirantes[], int quantidade, int codigoBuscad
     return NULL;
 }
 
-int registrarVendaProduto(Feirante *feirante, char *nomeProduto, int quantidadeVendidaAgora) {
-    if (feirante == NULL) {
-        printf("Erro: o ponteiro para o feirante é nulo.\n");
-        return 0; 
-    }
 
-    for (int i = 0; i < feirante->quantidadeProdutos; i++) {
-        if (strcmp(feirante->produtosVendidos[i].nome, nomeProduto) == 0) {
-            feirante->produtosVendidos[i].quantidadeVendida += quantidadeVendidaAgora;
-            return 1; 
-        }
-    }
 
-    printf("Erro: produto %s não encontrado na banca do feirante %s.\n", nomeProduto, feirante->nome);
-    return 0; 
+void liberarFeirantes(Feirante **feirantes, int *quantidade){
+    free(*feirantes);
+    *feirantes = NULL;
+    *quantidade = 0;
 }

@@ -3,7 +3,10 @@
 #include <string.h>
 #include "produto.h"
 
-typedef struct {
+#ifndef FEIRANTE_H
+#define FEIRANTE_H
+
+typedef struct Feirante{
     int codigo;
     char nome[50];
     int banca;
@@ -12,10 +15,11 @@ typedef struct {
     int quantidadeProdutos;
 } Feirante;
 
-int adicionarAoVetor();
-Feirante *cadastrarFeirante();
-void listarTodos();
-void liberarFeirantes();
-int adicionarProdutoNaBanca(Feirante *feirante, char *nome, float preco);
+int adicionarAoVetor(Feirante **feirantes, int *quantidade, Feirante novoFeirante);
+Feirante *cadastrarFeirante(int codigo, char nome[], int banca, char diaFeira[], ProdutoFeira produtosVendidos, int quantidadeProdutos);
+void listarTodos(Feirante feirantes[], int quantidade);
 Feirante *buscarPorCodigo(Feirante feirantes[], int quantidade, int codigoBuscado);
-int registrarVendaProduto(Feirante *feirante, char *nomeProduto, int quantidadeVendidaAgora);
+void liberarFeirantes(Feirante **feirantes, int *quantidade);
+
+#endif
+

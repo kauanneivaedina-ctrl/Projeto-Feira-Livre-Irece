@@ -32,7 +32,8 @@ void exibirMenu() {
 
 int main() {
     Feirante *feirantes = NULL;     //variaveis de controle do vetor dinamico feirantes
-    int quantidade = 0;       
+    int quantidade = 0;    
+    Feirante *feiranteEncontrado = NULL;   
     
     ProdutoFeira prodVazio = {"",0,0};
 
@@ -60,12 +61,32 @@ int main() {
                 system("pause");
                 break;
 
-            case 3:
-                //buscar por codigo
+            case 3: {
+                printf("Digite o codigo do feirante que deseja buscar: ");
+                int codigoBuscado = scanf("%d", &codigoBuscado);
+                feiranteEncontrado = buscarPorCodigo(feirantes, quantidade, codigoBuscado);
+
+                system("cls");
+                printf("=====Feirante encontrado=====\n\n");
+                printf("------------%s------------\n",feiranteEncontrado->nome);
+                printf("Codigo: %d\n", feiranteEncontrado->codigo); 
+                printf("Banca: %d\n", feiranteEncontrado->banca);
+                printf("Dia da feira: %s\n", feiranteEncontrado->diaFeira);
+                printf("-----Produtos vendidos-----:\n");
+                for(int j = 0; j < feiranteEncontrado->quantidadeProdutos; j++){
+                    printf("Produto: %s\n", feiranteEncontrado->produtosVendidos[j].nome);
+                    printf("Preco: %.2f\n", feiranteEncontrado->produtosVendidos[j].preco);
+                    printf("Quantidade vendida: %d\n", feiranteEncontrado->produtosVendidos[j].quantidadeVendida);
+                    printf("---------------------------\n");
+                }
+                printf("==================================\n\n");
+                system("pause");
                 break;
+            }
 
             case 4:
-                //adicionar produto a banca de um feirante
+                adicionarProdutoNaBanca(feirantes,"ProdutoTeste", 10.0);
+                system("pause");
                 break;
 
             case 5:
@@ -73,7 +94,10 @@ int main() {
                 break;
 
             case 6:
-                //ordem de venda
+                if(registrarVendaProduto(feirantes,"ProdutoTeste", 5)){
+                    printf("Venda registrada com sucesso!\n");
+                }
+                system("pause");
                 break;
 
             case 7:
