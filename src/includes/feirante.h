@@ -16,3 +16,6 @@ int adicionarAoVetor();
 Feirante *cadastrarFeirante();
 void listarTodos();
 void liberarFeirantes();
+int adicionarProdutoNaBanca(Feirante *feirante, char *nome, float preco);
+Feirante *buscarPorCodigo(Feirante feirantes[], int quantidade, int codigoBuscado);
+int registrarVendaProduto(Feirante *feirante, char *nomeProduto, int quantidadeVendidaAgora);
