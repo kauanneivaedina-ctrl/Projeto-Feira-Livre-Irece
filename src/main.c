@@ -90,7 +90,12 @@ int main() {
                 break;
 
             case 5:
-                //remover feirante
+                if(removerFeirante(&feirantes, &quantidade, 3)){
+                    printf("Feirante removido com sucesso!\n");
+                }else{
+                    printf("Feirante nao encontrado\n");
+                }
+                system("pause");
                 break;
 
             case 6:

@@ -35,6 +35,10 @@ Feirante *cadastrarFeirante(int codigo, char nome[], int banca, char diaFeira[],
 
 void listarTodos(Feirante feirantes[], int quantidade){
     system("cls");
+    if(quantidade == 0){
+        printf("Não há feirantes cadastrados para listar");
+    }
+
     printf("=====Listando feirantes=====\n\n");
     for(int i = 0; i < quantidade; i++){
         printf("------------%s------------\n",feirantes[i].nome);
@@ -42,13 +46,15 @@ void listarTodos(Feirante feirantes[], int quantidade){
         printf("Banca: %d\n", feirantes[i].banca);
         printf("Dia da feira: %s\n", feirantes[i].diaFeira);
         printf("-----Produtos vendidos-----:\n");
+
+        //strcut aninhada produtosVendidos
         for(int j = 0; j < feirantes[i].quantidadeProdutos; j++){
             printf("Produto: %s\n", feirantes[i].produtosVendidos[j].nome);
             printf("Preco: %.2f\n", feirantes[i].produtosVendidos[j].preco);
             printf("Quantidade vendida: %d\n", feirantes[i].produtosVendidos[j].quantidadeVendida);
             printf("---------------------------\n");
         }
-        printf("==================================\n\n");
+        printf("==================================\n");
     }
 }
 
@@ -61,57 +67,66 @@ Feirante *buscarPorCodigo(Feirante feirantes[], int quantidade, int codigoBuscad
     return NULL;
 }
 
-void salvarFeirantes(Feirante feirantes[], int quantidade, char *nomeArquivo){
-    FILE *arquivo = fopen(nomeArquivo, "w");
-    if(arquivo == NULL){
-        printf("Erro ao criar arquivo\n");
-        exit(1);
+int removerFeirante(Feirante **feirantes, int (*quantidade), int codigo){
+    if((*quantidade) == 0 || *feirantes == NULL){
+        return 0;
     }
 
-    for(int i = 0; i < quantidade; i++){
-        fprintf(arquivo,"%d;", feirantes[i].codigo);
-        fprintf(arquivo,"%s;", feirantes[i].nome);
-        fprintf(arquivo,"%d;", feirantes[i].banca);
-        fprintf(arquivo,"%s;", feirantes[i].diaFeira);
-        fprintf(arquivo,"%d;", feirantes[i].quantidadeProdutos);
-        for(int j = 0; j < feirantes[i].quantidadeProdutos; j++){
-            fprintf(arquivo,"%s;", feirantes[i].produtosVendidos[j].nome);
-            fprintf(arquivo,"%.2f;", feirantes[i].produtosVendidos[j].preco);
-            fprintf(arquivo,"%d;", feirantes[i].produtosVendidos[j].quantidadeVendida);
+    int idx = - 1;
+    for(int i = 0; i < (*quantidade); i++){
+        if((*feirantes)[i].codigo == codigo){
+            idx = i;
+            break;
         }
-        fprintf(arquivo,"\n");
     }
+
+    if(idx == -1){
+        return 0;
+    }
+
+    system("cls");
+    printf("=====Feirante a ser removido====\n\n");
+    printf("----------%s----------\n",(*feirantes)[idx].nome);
+    printf("Codigo: %d\n",(*feirantes)[idx].codigo);
+    printf("Banca: %d\n",(*feirantes)[idx].banca);
+    printf("Dia em feira: %s\n", (*feirantes)[idx].diaFeira);
+    printf("----Produtos vendidos----\n");
+    for(int i = 0; i < (*feirantes)[idx].quantidadeProdutos; i++){
+        printf("nome: %s\n", (*feirantes)[idx].produtosVendidos->nome);
+        printf("nome: %.2f\n", (*feirantes)[idx].produtosVendidos->preco);
+        printf("nome: %d\n", (*feirantes)[idx].produtosVendidos->quantidadeVendida);
+    }
+    printf("==================================\n");
+
+    char resposta;
+    printf("Tem certeza que deseja remover?(s/n) ");
+    scanf(" %c", &resposta);
+
+    if(resposta == 'n' || resposta == 'N'){ 
+        return 0;
+    }
+    for(int i = idx; i < (*quantidade) - 1; i++){
+        (*feirantes)[i] = (*feirantes)[i + 1];
+    }
+
+    int nova_quantidade = (*quantidade) - 1;
+    if(nova_quantidade == 0){
+        free(*feirantes);
+        *feirantes = NULL;
+        *quantidade = 0;
+        return 1;
+    }
+    Feirante *temp = (Feirante *)realloc(*feirantes, sizeof(Feirante) * nova_quantidade);
+    if(temp == NULL){
+        return 0;
+    }
+
+    *feirantes = temp;
+    *quantidade = nova_quantidade;
+    return 1;
 }
 
-int carregarFeirantes(Feirante **feirantes, int *quantidade, char *nomeArquivo){
-    FILE *arquivo = fopen(nomeArquivo, "r");
-    if(arquivo == NULL){
-        printf("Erro ao carregar arquivo\n");
-        exit(1);
-    }
 
-    Feirante temp;
-    int qtd_feirantes = 0;
-    while (fscanf(arquivo, "%d;%[^;];%d;%[^;];%d;",
-                &temp.codigo,
-                temp.nome,
-                &temp.banca,
-                temp.diaFeira,
-                &temp.quantidadeProdutos) == 5){
-        int totalProdutos = temp.quantidadeProdutos;
-        for (int i = 0; i < totalProdutos; i++) {
-            fscanf(arquivo, " %[^;];%f;%d;",
-                   temp.produtosVendidos[i].nome,
-                   &temp.produtosVendidos[i].preco,
-                   &temp.produtosVendidos[i].quantidadeVendida);
-        }
-        adicionarAoVetor(feirantes, quantidade, temp);
-        qtd_feirantes++;
-    }
-
-    fclose(arquivo);
-    return qtd_feirantes;
-}
 
 void liberarFeirantes(Feirante **feirantes, int *quantidade){
     free(*feirantes);
