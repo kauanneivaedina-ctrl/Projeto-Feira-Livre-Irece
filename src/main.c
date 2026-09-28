@@ -106,7 +106,7 @@ int main() {
                 break;
 
             case 7:
-                //atualizar dia de feira
+                void atualizarDiaFeira(Feirante *feirante, char *novoDia);
                 break;
 
             case 8:
@@ -118,7 +118,7 @@ int main() {
                 break;
 
             case 10:
-                //calcular taxa da feira
+                void calcularTaxaDaFeira(Feirante *feirante, float percentualTaxa);
                 break;
 
             case 11:
