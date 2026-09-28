@@ -23,6 +23,8 @@ Feirante *buscarPorCodigo(Feirante feirantes[], int quantidade, int codigoBuscad
 void salvarFeirantes(Feirante feirantes[], int quantidade, char *nomeArquivo);
 int carregarFeirantes(Feirante **feirantes, int *quantidade, char *nomeArquivo);
 void liberarFeirantes(Feirante **feirantes, int *quantidade);
+void remanejarFeirante(Feirante *feirantes, char *novoDia, int novaBanca, int codigoFeirante);
+
 
 #endif
 
