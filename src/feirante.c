@@ -126,8 +126,6 @@ int removerFeirante(Feirante **feirantes, int (*quantidade), int codigo){
     return 1;
 }
 
-
-
 void liberarFeirantes(Feirante **feirantes, int *quantidade){
     free(*feirantes);
     *feirantes = NULL;
