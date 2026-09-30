@@ -1,8 +1,9 @@
+#include "includes/produto.h"
 #include "includes/feirante.h"
 
 int adicionarProdutoNaBanca(Feirante *feirante, char *nome, float preco){
     if(feirante == NULL){
-        printf("Erro: o ponteiro para o feirante é nulo.\n");
+        printf("Erro: Nenhum feirante cadastrado.\n");
         return 0; 
     }
     if(feirante->quantidadeProdutos >= 10){

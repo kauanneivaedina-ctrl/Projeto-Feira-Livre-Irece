@@ -1,4 +1,4 @@
-#include "includes/feirante.h"
+#include "includes/arquivo.h"
 
 void salvarFeirantes(Feirante feirantes[], int quantidade, char *nomeArquivo){
     FILE *arquivo = fopen(nomeArquivo, "w");
