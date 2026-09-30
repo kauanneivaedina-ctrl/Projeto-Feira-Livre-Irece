@@ -8,7 +8,7 @@ typedef struct ProdutoFeira{
     int quantidadeVendida;
 } ProdutoFeira;
 
-typedef struct Feirante Feirante; // Forward declaration da struct Feirante
+typedef struct Feirante Feirante;
 int adicionarProdutoNaBanca(Feirante *feirante, char *nome, float preco);
 int registrarVendaProduto(Feirante *feirante, char *nomeProduto, int quantidadeVendidaAgora);
 

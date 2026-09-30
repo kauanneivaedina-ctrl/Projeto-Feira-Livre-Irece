@@ -1,4 +1,6 @@
 #include "includes/feirante.h"
+#include "includes/relatorio.h"
+#include "includes/arquivo.h"
 
 void exibirMenu() {
     system("cls");
@@ -85,7 +87,9 @@ int main() {
             }
 
             case 4:
-                adicionarProdutoNaBanca(feirantes,"ProdutoTeste", 10.0);
+                if(adicionarProdutoNaBanca(feirantes,"ProdutoTeste", 10.0)){
+                    printf("Produto adicionado com sucesso!\n");
+                }
                 system("pause");
                 break;
 
@@ -106,24 +110,34 @@ int main() {
                 break;
 
             case 7:
-                void atualizarDiaFeira(Feirante *feirante, char *novoDia);
+                atualizarDiaFeira(feirantes, "Quinta-Feira");
+                system("pause");
                 break;
 
             case 8:
-                //remanejar feirante
+                remanejarFeirante(feirantes, "Quarta-feira", quantidade, 5, 1);
+                system("pause");
                 break;
 
-            case 9:
-                //calcular faturamento do feirante
+            case 9:{
+                float faturamento = calcularFaturamentoFeirante(feirantes);
+                printf("O faturamento desse feirante é de R$ %.2f\n", faturamento);
+                system("pause");
                 break;
+            }
 
-            case 10:
-                void calcularTaxaDaFeira(Feirante *feirante, float percentualTaxa);
+            case 10:{
+                float taxa_feira = calcularTaxaDaFeira(feirantes, 15.00);
+                printf("A taxa da feira para este feirante é de R$ %.2f\n", taxa_feira);
+                system("pause");
                 break;
+            }
 
-            case 11:
-                //contar feirantes por dia
+            case 11:{
+                contarFeirantesPorDia(feirantes, quantidade);
+                system("pause");
                 break;
+            }
 
             case 12:
                 salvarFeirantes(feirantes, quantidade, "data/feirantes.txt");
@@ -146,8 +160,6 @@ int main() {
                 printf("\nOpcao invalida! Tente novamente.\n");
         }
     } while (opcao != 0);
-
-    printf("DEBUG quantidade: %d\n\n", quantidade);
 
     liberarFeirantes(&feirantes, &quantidade); // Liberar memória alocada para o vetor de feirantes
     return 0;

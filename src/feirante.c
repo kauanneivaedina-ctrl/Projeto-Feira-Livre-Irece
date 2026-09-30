@@ -126,8 +126,6 @@ int removerFeirante(Feirante **feirantes, int (*quantidade), int codigo){
     return 1;
 }
 
-
-
 void liberarFeirantes(Feirante **feirantes, int *quantidade){
     free(*feirantes);
     *feirantes = NULL;
@@ -136,15 +134,13 @@ void liberarFeirantes(Feirante **feirantes, int *quantidade){
 
 void atualizarDiaFeira(Feirante *feirante, char *novoDiaFeira){
     if(feirante == NULL || novoDiaFeira == NULL){
-        printf("Erro: ponteiro nulo fornecido para atualizar o dia da feira.\n");
+        printf("Erro: Nenhum feirante cadastrado.\n");
         return;
     }
     strcpy(feirante->diaFeira, novoDiaFeira);
-
-
 }
 
-void remanejarFeirante(Feirante *feirantes, char *novoDia, int novaBanca, int codigoFeirante) {
+void remanejarFeirante(Feirante *feirantes, char *novoDia, int quantidade, int novaBanca, int codigoFeirante) {
     for (int i = 0; i < quantidade; i++) {
         if (feirantes[i].codigo == codigoFeirante) {
             strcpy(feirantes[i].diaFeira, novoDia);

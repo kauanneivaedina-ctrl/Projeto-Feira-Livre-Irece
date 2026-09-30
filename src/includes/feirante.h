@@ -1,10 +1,11 @@
+
+#ifndef FEIRANTE_H
+#define FEIRANTE_H
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include "produto.h"
-
-#ifndef FEIRANTE_H
-#define FEIRANTE_H
 
 typedef struct Feirante{
     int codigo;
@@ -20,11 +21,9 @@ Feirante *cadastrarFeirante(int codigo, char nome[], int banca, char diaFeira[],
 void listarTodos(Feirante feirantes[], int quantidade);
 int removerFeirante(Feirante **feirantes, int *quantidade, int codigo);
 Feirante *buscarPorCodigo(Feirante feirantes[], int quantidade, int codigoBuscado);
-void salvarFeirantes(Feirante feirantes[], int quantidade, char *nomeArquivo);
-int carregarFeirantes(Feirante **feirantes, int *quantidade, char *nomeArquivo);
 void liberarFeirantes(Feirante **feirantes, int *quantidade);
-void remanejarFeirante(Feirante *feirantes, char *novoDia, int novaBanca, int codigoFeirante);
-
+void remanejarFeirante(Feirante *feirantes, char *novoDia,int quantidade, int novaBanca, int codigoFeirante);
+void atualizarDiaFeira(Feirante *feirante, char *novoDiaFeira);
 
 #endif
 
