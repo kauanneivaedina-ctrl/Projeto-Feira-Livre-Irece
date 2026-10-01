@@ -1,7 +1,7 @@
 #include "includes/produto.h"
 #include "includes/feirante.h"
 
-int adicionarProdutoNaBanca(Feirante *feirante, char *nome, float preco){
+int adicionarProdutoNaBanca(Feirante *feirante, ProdutoFeira produto) {
     if(feirante == NULL){
         printf("Erro: Nenhum feirante cadastrado.\n");
         return 0; 
@@ -12,9 +12,9 @@ int adicionarProdutoNaBanca(Feirante *feirante, char *nome, float preco){
     }
     int posicao = feirante->quantidadeProdutos;
 
-    strcpy(feirante->produtosVendidos[posicao].nome, nome);
-    feirante->produtosVendidos[posicao].preco = preco;
-    feirante->produtosVendidos[posicao].quantidadeVendida = 0;
+    strcpy(feirante->produtosVendidos[posicao].nome, produto.nome);
+    feirante->produtosVendidos[posicao].preco = produto.preco;
+    feirante->produtosVendidos[posicao].quantidadeVendida = produto.quantidadeVendida;
 
     feirante->quantidadeProdutos++;
     return 1;
@@ -22,7 +22,7 @@ int adicionarProdutoNaBanca(Feirante *feirante, char *nome, float preco){
 
 int registrarVendaProduto(Feirante *feirante, char *nomeProduto, int quantidadeVendidaAgora) {
     if (feirante == NULL) {
-        printf("Erro: o ponteiro para o feirante é nulo.\n");
+        printf("Erro: nenhum feirante foi encontrado.\n");
         return 0; 
     }
 

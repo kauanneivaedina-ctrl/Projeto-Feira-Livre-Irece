@@ -17,13 +17,13 @@ typedef struct Feirante{
 } Feirante;
 
 int adicionarAoVetor(Feirante **feirantes, int *quantidade, Feirante novoFeirante);
-Feirante *cadastrarFeirante(int codigo, char nome[], int banca, char diaFeira[], ProdutoFeira produtosVendidos, int quantidadeProdutos);
+Feirante *cadastrarFeirante(int codigo, Feirante dados);
 void listarTodos(Feirante feirantes[], int quantidade);
 int removerFeirante(Feirante **feirantes, int *quantidade, int codigo);
 Feirante *buscarPorCodigo(Feirante feirantes[], int quantidade, int codigoBuscado);
 void liberarFeirantes(Feirante **feirantes, int *quantidade);
 void remanejarFeirante(Feirante *feirantes, char *novoDia,int quantidade, int novaBanca, int codigoFeirante);
 void atualizarDiaFeira(Feirante *feirante, char *novoDiaFeira);
+Feirante *buscarPorBanca(Feirante feirantes[], int quantidade, int bancaBuscada);
 
 #endif
-

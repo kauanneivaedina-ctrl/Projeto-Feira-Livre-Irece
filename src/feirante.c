@@ -14,7 +14,7 @@ int adicionarAoVetor(Feirante **feirantes, int *quantidade, Feirante novoFeirant
     }
 }
 
-Feirante *cadastrarFeirante(int codigo, char nome[], int banca, char diaFeira[], ProdutoFeira produtosVendidos, int quantidadeProdutos){
+Feirante *cadastrarFeirante(int codigo, Feirante dados){
     Feirante *novoFeirante = (Feirante *) malloc(sizeof(Feirante));
     if(novoFeirante == NULL){
         printf("Erro ao alocar memoria para o novo feirante.\n");
@@ -22,13 +22,13 @@ Feirante *cadastrarFeirante(int codigo, char nome[], int banca, char diaFeira[],
     }
 
     novoFeirante->codigo = codigo;
-    strcpy(novoFeirante->nome, nome);
-    novoFeirante->banca = banca;
-    strcpy(novoFeirante->diaFeira, diaFeira);
+    strcpy(novoFeirante->nome, dados.nome);
+    novoFeirante->banca = dados.banca;
+    strcpy(novoFeirante->diaFeira, dados.diaFeira);
 
     //struct aninhada produtosVendidos
-    novoFeirante->produtosVendidos[0] = produtosVendidos;
-    novoFeirante->quantidadeProdutos = quantidadeProdutos;
+    novoFeirante->produtosVendidos[0] = dados.produtosVendidos[0];
+    novoFeirante->quantidadeProdutos = dados.quantidadeProdutos;
 
     return novoFeirante;
 }
@@ -36,7 +36,8 @@ Feirante *cadastrarFeirante(int codigo, char nome[], int banca, char diaFeira[],
 void listarTodos(Feirante feirantes[], int quantidade){
     system("cls");
     if(quantidade == 0){
-        printf("Não há feirantes cadastrados para listar");
+        printf("Não há feirantes cadastrados para listar\n");
+        return;
     }
 
     printf("=====Listando feirantes=====\n\n");
@@ -152,3 +153,11 @@ void remanejarFeirante(Feirante *feirantes, char *novoDia, int quantidade, int n
     printf("Erro: feirante com código %d não encontrado.\n", codigoFeirante);
 }
 
+Feirante *buscarPorBanca(Feirante feirantes[], int quantidade, int bancaBuscada) {
+    for(int i = 0; i < quantidade; i++){
+        if(feirantes[i].banca == bancaBuscada){
+            return &feirantes[i];
+        }
+    }
+    return NULL;
+}
