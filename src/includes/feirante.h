@@ -22,8 +22,11 @@ void listarTodos(Feirante feirantes[], int quantidade);
 int removerFeirante(Feirante **feirantes, int *quantidade, int codigo);
 Feirante *buscarPorCodigo(Feirante feirantes[], int quantidade, int codigoBuscado);
 void liberarFeirantes(Feirante **feirantes, int *quantidade);
-void remanejarFeirante(Feirante *feirantes, char *novoDia,int quantidade, int novaBanca, int codigoFeirante);
+void remanejarFeirante(Feirante *feirantes, char *novoDia, int novaBanca);
 void atualizarDiaFeira(Feirante *feirante, char *novoDiaFeira);
-Feirante *buscarPorBanca(Feirante feirantes[], int quantidade, int bancaBuscada);
+float calcularTaxaDaFeira(Feirante *feirante, float percentualTaxa);
+float calcularFaturamentoFeirante(Feirante *feirante);
+void contarFeirantesPorDia(Feirante feirantes[], int quantidade);
+int proxCodigo(Feirante feirantes[], int quantidade);
 
 #endif

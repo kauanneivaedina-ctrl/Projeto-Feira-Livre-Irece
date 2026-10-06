@@ -10,8 +10,15 @@ int adicionarProdutoNaBanca(Feirante *feirante, ProdutoFeira produto) {
         printf("Erro: a banca do feirante %s já atingiu o limite de produtos.\n", feirante->nome);
         return 0; 
     }
-    int posicao = feirante->quantidadeProdutos;
 
+    for(int i = 0; i < feirante->quantidadeProdutos; i++){
+        if(strcasecmp(feirante->produtosVendidos[i].nome, produto.nome) == 0){
+            printf("Erro: o produto %s já está cadastrado na banca do feirante %s.\n", produto.nome, feirante->nome);
+            return 0; 
+        }
+    }
+
+    int posicao = feirante->quantidadeProdutos;
     strcpy(feirante->produtosVendidos[posicao].nome, produto.nome);
     feirante->produtosVendidos[posicao].preco = produto.preco;
     feirante->produtosVendidos[posicao].quantidadeVendida = produto.quantidadeVendida;
@@ -26,8 +33,13 @@ int registrarVendaProduto(Feirante *feirante, char *nomeProduto, int quantidadeV
         return 0; 
     }
 
+    if(quantidadeVendidaAgora < 0) {
+        printf("Erro: a quantidade vendida não pode ser negativa.\n");
+        return 0; 
+    }
+
     for (int i = 0; i < feirante->quantidadeProdutos; i++) {
-        if (strcmp(feirante->produtosVendidos[i].nome, nomeProduto) == 0) {
+        if (strcasecmp(feirante->produtosVendidos[i].nome, nomeProduto) == 0) {
             feirante->produtosVendidos[i].quantidadeVendida += quantidadeVendidaAgora;
             return 1; 
         }

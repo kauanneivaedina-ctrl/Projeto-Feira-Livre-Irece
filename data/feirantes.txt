@@ -1,4 +1,4 @@
-1;Kauan;5;Quarta-feira;1;ProdutoTeste;10.00;10;
-2;Marcos;7;Terca-feira;0;
-3;Paula;12458248;quarta-feira;0;
-4;Julia;9;sabado;0;
+1;Kauan;1;domingo;2;Batata;4.99;10;Soja;7.99;11;
+2;Marcos;3;segunda-feira;1;Maçã;5.99;0;
+3;Paulo;5;terca-feira;1;Milho;21.99;0;
+4;Artur;9;sexta-feira;1;Feijão;15.99;10;
