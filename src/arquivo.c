@@ -4,7 +4,7 @@ void salvarFeirantes(Feirante feirantes[], int quantidade, char *nomeArquivo){
     FILE *arquivo = fopen(nomeArquivo, "w");
     if(arquivo == NULL){
         printf("Erro ao criar arquivo\n");
-        exit(1);
+        return;
     }
 
     for(int i = 0; i < quantidade; i++){
@@ -20,18 +20,20 @@ void salvarFeirantes(Feirante feirantes[], int quantidade, char *nomeArquivo){
         }
         fprintf(arquivo,"\n");
     }
+
+    fclose(arquivo);
 }
 
 int carregarFeirantes(Feirante **feirantes, int *quantidade, char *nomeArquivo){
     FILE *arquivo = fopen(nomeArquivo, "r");
     if(arquivo == NULL){
         printf("Erro ao carregar arquivo\n");
-        exit(1);
+        return -1;
     }
 
     Feirante temp;
     int qtd_feirantes = 0;
-    while (fscanf(arquivo, "%d;%[^;];%d;%[^;];%d;",
+    while (fscanf(arquivo, "%d;%49[^;];%d;%14[^;];%d;",
                 &temp.codigo,
                 temp.nome,
                 &temp.banca,
@@ -39,7 +41,7 @@ int carregarFeirantes(Feirante **feirantes, int *quantidade, char *nomeArquivo){
                 &temp.quantidadeProdutos) == 5){
         int totalProdutos = temp.quantidadeProdutos;
         for (int i = 0; i < totalProdutos; i++) {
-            fscanf(arquivo, " %[^;];%f;%d;",
+            fscanf(arquivo, " %29[^;];%f;%d;",
                    temp.produtosVendidos[i].nome,
                    &temp.produtosVendidos[i].preco,
                    &temp.produtosVendidos[i].quantidadeVendida);
@@ -50,4 +52,14 @@ int carregarFeirantes(Feirante **feirantes, int *quantidade, char *nomeArquivo){
 
     fclose(arquivo);
     return qtd_feirantes;
+}
+
+int inicializarSistema(Feirante **feirantes, int *quantidade){
+    int carregados = carregarFeirantes(feirantes, quantidade, "data/feirantes.txt");
+    if(carregados > 0){
+        printf("%d feirantes foram carregados ao inicializar o sistema\n", carregados);
+    }
+
+    system("pause");
+    return carregados;
 }

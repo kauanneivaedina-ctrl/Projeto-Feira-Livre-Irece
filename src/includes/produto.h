@@ -9,7 +9,7 @@ typedef struct ProdutoFeira{
 } ProdutoFeira;
 
 typedef struct Feirante Feirante;
-int adicionarProdutoNaBanca(Feirante *feirante, char *nome, float preco);
+int adicionarProdutoNaBanca(Feirante *feirante, ProdutoFeira produto);
 int registrarVendaProduto(Feirante *feirante, char *nomeProduto, int quantidadeVendidaAgora);
 
 #endif

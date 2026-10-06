@@ -1,3 +1,4 @@
-1;Joao;1;Segunda-feira;0
-2;Maria;2;Terca-feira;0
-3;Jose;3;Quarta-feira;0
+1;Kauan;1;domingo;2;Batata;4.99;10;Soja;7.99;11;
+2;Marcos;3;segunda-feira;1;Maçã;5.99;0;
+3;Paulo;5;terca-feira;1;Milho;21.99;0;
+4;Artur;9;sexta-feira;1;Feijão;15.99;10;

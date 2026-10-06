@@ -1,62 +1,38 @@
 #include "includes/feirante.h"
-#include "includes/relatorio.h"
 #include "includes/arquivo.h"
-
-void exibirMenu() {
-    system("cls");
-    printf("=========================================\n");
-    printf("==== SISTEMA DA FEIRA LIVRE DE IRECE ====\n");
-    printf("=========================================\n\n");
-    printf("------------ Gerenciamento --------------\n");
-    printf("1. Cadastrar feirante\n");
-    printf("2. Listar todos os feirantes\n");
-    printf("3. Buscar feirante por codigo\n");
-    printf("4. Adicionar produto a banca\n");
-    printf("5. Remover feirante\n");
-    printf("\n");
-    printf("---------- Operacoes e Vendas ----------\n");
-    printf("6. Ordem de venda \n");
-    printf("7. Atualizar dia de feira\n");
-    printf("8. Remanejar feirante (banca e dia)\n");
-    printf("\n");
-    printf("-------- Financeiro e Relatorios --------\n");
-    printf("9. Calcular faturamento de um feirante\n");
-    printf("10. Calcular taxa da feira\n");
-    printf("11. Contar feirantes por dia\n");
-    printf("\n");
-    printf("------------ Arquivo e Saida ------------\n");
-    printf("12. Salvar dados em arquivo\n");
-    printf("13. Carregar dados do arquivo\n");
-    printf("0. Sair\n");
-    printf("-----------------------------------------\n\n");
-    printf("ESCOLHA UMA OPCAO: ");
-}
+#include "includes/telas.h"
+#include <windows.h>
 
 int main() {
-    Feirante *feirantes = NULL;     //variaveis de controle do vetor dinamico feirantes
-    int quantidade = 0;    
-    Feirante *feiranteEncontrado = NULL;   
-    
-    ProdutoFeira prodVazio = {"",0,0};
+    SetConsoleOutputCP(65001); // Configura a saída do console para aceitar acentos
+    SetConsoleCP(65001); // Configura a entrada do console para aceitar acentos
 
+    Feirante *feirantes = NULL;  //variaveis de controle do vetor dinamico feirantes
+    int quantidade = 0;
+    int codigoFeirante = 1;
     int opcao;
+    Feirante *feiranteEncontrado = NULL;
+
+    //função que carrega os feirantes do arquivo salvo ao inicilizar o sistema
+    inicializarSistema(&feirantes, &quantidade);
+
     do {
-        exibirMenu();
-        if (scanf("%d", &opcao) != 1) {
-            printf("Entrada invalida! Digite um numero.\n");
-            while (getchar() != '\n');
-            continue;
-        }
+        opcao = exibirMenu();
 
         switch (opcao) {
-            case 1:
-                if(adicionarAoVetor(&feirantes, &quantidade, *cadastrarFeirante(001, "Joao", 001, "Segunda-feira", prodVazio, 0))) {
+            case 1:{
+                codigoFeirante = proxCodigo(feirantes, quantidade); // Atualiza o código do feirante para o próximo disponível
+                Feirante *novoFeirante = cadastrarFeirante(codigoFeirante, dadosFeirante());
+                if(adicionarAoVetor(&feirantes, &quantidade, *novoFeirante)) {
                     printf("Feirante cadastrado com sucesso!\n");
+                    codigoFeirante++;
                 } else {
                     printf("Erro ao cadastrar feirante.\n");
                 }
+                free(novoFeirante); //libera a memória alocada para o novo feirante
                 system("pause");
                 break;
+            }
 
             case 2:
                 listarTodos(feirantes, quantidade);
@@ -65,70 +41,105 @@ int main() {
 
             case 3: {
                 printf("Digite o codigo do feirante que deseja buscar: ");
-                int codigoBuscado = scanf("%d", &codigoBuscado);
-                feiranteEncontrado = buscarPorCodigo(feirantes, quantidade, codigoBuscado);
+                feiranteEncontrado = buscarPorCodigo(feirantes, quantidade, lerEntrada());
+                if(feiranteEncontrado == NULL) break;
 
                 system("cls");
-                printf("=====Feirante encontrado=====\n\n");
-                printf("------------%s------------\n",feiranteEncontrado->nome);
-                printf("Codigo: %d\n", feiranteEncontrado->codigo); 
-                printf("Banca: %d\n", feiranteEncontrado->banca);
-                printf("Dia da feira: %s\n", feiranteEncontrado->diaFeira);
-                printf("-----Produtos vendidos-----:\n");
-                for(int j = 0; j < feiranteEncontrado->quantidadeProdutos; j++){
-                    printf("Produto: %s\n", feiranteEncontrado->produtosVendidos[j].nome);
-                    printf("Preco: %.2f\n", feiranteEncontrado->produtosVendidos[j].preco);
-                    printf("Quantidade vendida: %d\n", feiranteEncontrado->produtosVendidos[j].quantidadeVendida);
-                    printf("---------------------------\n");
-                }
-                printf("==================================\n\n");
+                printf("=====Feirante encontrado=====\n");
+                mostrarFeirante(feiranteEncontrado);
                 system("pause");
                 break;
             }
 
             case 4:
-                if(adicionarProdutoNaBanca(feirantes,"ProdutoTeste", 10.0)){
+                feiranteEncontrado = buscarFeirante(feirantes, quantidade, "Digite o codigo do feirante que deseja adicionar um produto: ");
+                if(feiranteEncontrado == NULL) break;
+
+                if(adicionarProdutoNaBanca(feiranteEncontrado, dadosProduto())){
                     printf("Produto adicionado com sucesso!\n");
                 }
                 system("pause");
                 break;
 
             case 5:
-                if(removerFeirante(&feirantes, &quantidade, 3)){
+                printf("Digite o codigo do feirante que deseja remover: ");
+                feiranteEncontrado = buscarPorCodigo(feirantes, quantidade, lerEntrada());
+                if(feiranteEncontrado == NULL) break;
+
+                if(removerFeirante(&feirantes, &quantidade, feiranteEncontrado->codigo)){
                     printf("Feirante removido com sucesso!\n");
-                }else{
-                    printf("Feirante nao encontrado\n");
                 }
                 system("pause");
                 break;
 
             case 6:
-                if(registrarVendaProduto(feirantes,"ProdutoTeste", 5)){
+                feiranteEncontrado = buscarFeirante(feirantes, quantidade, "Digite o codigo do feirante que deseja registrar uma venda: ");
+                if(feiranteEncontrado == NULL) break;
+
+                system("cls");
+                printf("=====Registro de Venda=====\n\n");
+                printf("Digite o nome do produto vendido: ");
+                char nomeProduto[30];
+                scanf(" %29[^\n]", nomeProduto);
+
+                printf("Digite a quantidade vendida do produto: ");
+                int quantidadeVendidaAgora;
+                quantidadeVendidaAgora = lerEntrada();
+
+                if(registrarVendaProduto(feiranteEncontrado, nomeProduto, quantidadeVendidaAgora)){
                     printf("Venda registrada com sucesso!\n");
                 }
                 system("pause");
                 break;
 
             case 7:
-                atualizarDiaFeira(feirantes, "Quinta-Feira");
+                feiranteEncontrado = buscarFeirante(feirantes, quantidade, "Digite o codigo do feirante que deseja atualizar o dia da feira: ");
+                if(feiranteEncontrado == NULL) break;
+
+                printf("Escolha o novo dia da feira:\n");
+                char novoDia[15];
+                strcpy(novoDia, escolherDiaFeira());
+
+                atualizarDiaFeira(feiranteEncontrado, novoDia);
                 system("pause");
                 break;
 
             case 8:
-                remanejarFeirante(feirantes, "Quarta-feira", quantidade, 5, 1);
+                feiranteEncontrado = buscarFeirante(feirantes, quantidade, "Digite o codigo do feirante que deseja remanejar: ");
+                if(feiranteEncontrado == NULL) break;
+
+                system("cls");
+                printf("=====Remanejamento de Feirante=====\n\n");
+                printf("Escolha o novo dia da feira:\n");
+                strcpy(novoDia, escolherDiaFeira());
+                
+                printf("Digite a nova banca do feirante: ");
+                int novaBanca;
+                novaBanca = lerEntrada();
+
+                remanejarFeirante(feiranteEncontrado, novoDia, novaBanca);
                 system("pause");
                 break;
 
             case 9:{
-                float faturamento = calcularFaturamentoFeirante(feirantes);
-                printf("O faturamento desse feirante é de R$ %.2f\n", faturamento);
+                feiranteEncontrado = buscarFeirante(feirantes, quantidade, "Digite o codigo do feirante que deseja calcular o faturamento: ");
+                if(feiranteEncontrado == NULL) break;
+
+                printf("O faturamento desse feirante é de R$ %.2f\n", calcularFaturamentoFeirante(feiranteEncontrado));
                 system("pause");
                 break;
             }
 
             case 10:{
-                float taxa_feira = calcularTaxaDaFeira(feirantes, 15.00);
-                printf("A taxa da feira para este feirante é de R$ %.2f\n", taxa_feira);
+                feiranteEncontrado = buscarFeirante(feirantes, quantidade, "Digite o codigo do feirante que deseja calcular a taxa da feira: ");
+                if(feiranteEncontrado == NULL) break;
+
+                float percentualTaxa;
+                printf("Digite o percentual da taxa da feira (ex: 5 para 5%%): ");
+                percentualTaxa = lerEntrada();
+
+                float taxa = calcularTaxaDaFeira(feiranteEncontrado, percentualTaxa);
+                printf("A taxa da feira para o feirante %s é de R$ %.2f\n", feiranteEncontrado->nome, taxa);
                 system("pause");
                 break;
             }
@@ -153,11 +164,21 @@ int main() {
             }
 
             case 0:
-                printf("\nEncerrando o sistema...\n");
+                printf("Gostaria de salvar os dados antes de sair? (s/n): ");
+                char resposta;
+                scanf(" %c", &resposta);
+
+                if(resposta == 's' || resposta == 'S'){
+                    salvarFeirantes(feirantes, quantidade, "data/feirantes.txt");
+                    printf("Arquivo salvo com sucesso!\n");
+                }
+                
+                printf("Encerrando o sistema...\n");
                 break;
 
             default:
                 printf("\nOpcao invalida! Tente novamente.\n");
+                system("pause");
         }
     } while (opcao != 0);
 
