@@ -31,7 +31,7 @@ int carregarFeirantes(Feirante **feirantes, int *quantidade, char *nomeArquivo){
         return -1;
     }
 
-    Feirante temp;
+    Feirante temp;      //variavel que guarda o feirante atual sendo lido.
     int qtd_feirantes = 0;
     while (fscanf(arquivo, "%d;%49[^;];%d;%14[^;];%d;",
                 &temp.codigo,
@@ -46,11 +46,13 @@ int carregarFeirantes(Feirante **feirantes, int *quantidade, char *nomeArquivo){
                    &temp.produtosVendidos[i].preco,
                    &temp.produtosVendidos[i].quantidadeVendida);
         }
+        //aumenta o tamanho do vetor feirantes conforme o arquivo é lido.
         adicionarAoVetor(feirantes, quantidade, temp);
         qtd_feirantes++;
     }
 
     fclose(arquivo);
+    //retorna a quantidade de feirantes carregados do arquivo
     return qtd_feirantes;
 }
 

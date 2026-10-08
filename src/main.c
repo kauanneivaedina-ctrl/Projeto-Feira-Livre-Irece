@@ -40,7 +40,7 @@ int main() {
                 break;
 
             case 3: {
-                printf("Digite o codigo do feirante que deseja buscar: ");
+                printf("Digite o código do feirante que deseja buscar: ");
                 feiranteEncontrado = buscarPorCodigo(feirantes, quantidade, lerEntrada());
                 if(feiranteEncontrado == NULL) break;
 
@@ -52,7 +52,7 @@ int main() {
             }
 
             case 4:
-                feiranteEncontrado = buscarFeirante(feirantes, quantidade, "Digite o codigo do feirante que deseja adicionar um produto: ");
+                feiranteEncontrado = buscarFeirante(feirantes, quantidade, "Digite o código do feirante que deseja adicionar um produto: ");
                 if(feiranteEncontrado == NULL) break;
 
                 if(adicionarProdutoNaBanca(feiranteEncontrado, dadosProduto())){
@@ -62,7 +62,7 @@ int main() {
                 break;
 
             case 5:
-                printf("Digite o codigo do feirante que deseja remover: ");
+                printf("Digite o código do feirante que deseja remover: ");
                 feiranteEncontrado = buscarPorCodigo(feirantes, quantidade, lerEntrada());
                 if(feiranteEncontrado == NULL) break;
 
@@ -73,7 +73,7 @@ int main() {
                 break;
 
             case 6:
-                feiranteEncontrado = buscarFeirante(feirantes, quantidade, "Digite o codigo do feirante que deseja registrar uma venda: ");
+                feiranteEncontrado = buscarFeirante(feirantes, quantidade, "Digite o código do feirante que deseja registrar uma venda: ");
                 if(feiranteEncontrado == NULL) break;
 
                 system("cls");
@@ -93,7 +93,7 @@ int main() {
                 break;
 
             case 7:
-                feiranteEncontrado = buscarFeirante(feirantes, quantidade, "Digite o codigo do feirante que deseja atualizar o dia da feira: ");
+                feiranteEncontrado = buscarFeirante(feirantes, quantidade, "Digite o código do feirante que deseja atualizar o dia da feira: ");
                 if(feiranteEncontrado == NULL) break;
 
                 printf("Escolha o novo dia da feira:\n");
@@ -105,7 +105,7 @@ int main() {
                 break;
 
             case 8:
-                feiranteEncontrado = buscarFeirante(feirantes, quantidade, "Digite o codigo do feirante que deseja remanejar: ");
+                feiranteEncontrado = buscarFeirante(feirantes, quantidade, "Digite o código do feirante que deseja remanejar: ");
                 if(feiranteEncontrado == NULL) break;
 
                 system("cls");
@@ -122,7 +122,7 @@ int main() {
                 break;
 
             case 9:{
-                feiranteEncontrado = buscarFeirante(feirantes, quantidade, "Digite o codigo do feirante que deseja calcular o faturamento: ");
+                feiranteEncontrado = buscarFeirante(feirantes, quantidade, "Digite o código do feirante que deseja calcular o faturamento: ");
                 if(feiranteEncontrado == NULL) break;
 
                 printf("O faturamento desse feirante é de R$ %.2f\n", calcularFaturamentoFeirante(feiranteEncontrado));
@@ -131,7 +131,7 @@ int main() {
             }
 
             case 10:{
-                feiranteEncontrado = buscarFeirante(feirantes, quantidade, "Digite o codigo do feirante que deseja calcular a taxa da feira: ");
+                feiranteEncontrado = buscarFeirante(feirantes, quantidade, "Digite o código do feirante que deseja calcular a taxa da feira: ");
                 if(feiranteEncontrado == NULL) break;
 
                 float percentualTaxa;
