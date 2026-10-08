@@ -18,7 +18,7 @@ int adicionarProdutoNaBanca(Feirante *feirante, ProdutoFeira produto) {
         }
     }
 
-    int posicao = feirante->quantidadeProdutos;
+    int posicao = feirante->quantidadeProdutos;     //variavel que guarda o indice atual do produto sendo cadastrado.
     strcpy(feirante->produtosVendidos[posicao].nome, produto.nome);
     feirante->produtosVendidos[posicao].preco = produto.preco;
     feirante->produtosVendidos[posicao].quantidadeVendida = produto.quantidadeVendida;

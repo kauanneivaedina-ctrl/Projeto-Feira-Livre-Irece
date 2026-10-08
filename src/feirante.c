@@ -53,6 +53,7 @@ Feirante *buscarPorCodigo(Feirante feirantes[], int quantidade, int codigoBuscad
             return &feirantes[i];
         }
     }
+    //se passar pelo loop e não encontrar o feirante, siginica que não existe feirante com esse código
     printf("Feirante não encontrado.\n");
     system("pause");
     return NULL;
@@ -64,14 +65,16 @@ int removerFeirante(Feirante **feirantes, int (*quantidade), int codigo){
     }
 
     int idx = - 1;
-    for(int i = 0; i < (*quantidade); i++){
+    for(int i = 0; i < (*quantidade); i++){      //procura pelo índice do feirante a ser removido
         if((*feirantes)[i].codigo == codigo){
             idx = i;
             break;
         }
     }
 
+    // se continuar como - 1, significa que não encontrou o feirante com o código informado
     if(idx == -1){
+        printf("Feirante não encontrado.\n");
         return 0;
     }
 
@@ -87,22 +90,25 @@ int removerFeirante(Feirante **feirantes, int (*quantidade), int codigo){
         printf("Remoção cancelada.\n");
         return 0;
     }
+    //volta as posições do vetor 1 casa para trás para remover o feirante
     for(int i = idx; i < (*quantidade) - 1; i++){
         (*feirantes)[i] = (*feirantes)[i + 1];
     }
 
     int nova_quantidade = (*quantidade) - 1;
-    if(nova_quantidade == 0){
+    if(nova_quantidade == 0){       //se o único feirante for removido, libera a memória e seta o ponteiro para NULL
         free(*feirantes);
         *feirantes = NULL;
         *quantidade = 0;
         return 1;
     }
+    //diminui o tamanho do vetor usando um novo vetor temporário para garantir a realocação
     Feirante *temp = (Feirante *)realloc(*feirantes, sizeof(Feirante) * nova_quantidade);
     if(temp == NULL){
         return 0;
     }
 
+    //o vetor original é atualizado para o novo vetor realocado e a quantidade é atualizada
     *feirantes = temp;
     *quantidade = nova_quantidade;
     return 1;
@@ -151,15 +157,15 @@ float calcularFaturamentoFeirante(Feirante *feirante) {
 void contarFeirantesPorDia(Feirante feirantes[], int quantidade){
     int feirantes_por_dia[7] = {0};
 
-for(int i = 0; i < quantidade; i++){
-    if(strcasecmp((feirantes[i].diaFeira), "domingo") == 0) feirantes_por_dia[0]++;
-    if(strcasecmp((feirantes[i].diaFeira), "segunda-feira") == 0) feirantes_por_dia[1]++;
-    if(strcasecmp((feirantes[i].diaFeira), "terca-feira") == 0) feirantes_por_dia[2]++;
-    if(strcasecmp((feirantes[i].diaFeira), "quarta-feira") == 0) feirantes_por_dia[3]++;
-    if(strcasecmp((feirantes[i].diaFeira), "quinta-feira") == 0) feirantes_por_dia[4]++;
-    if(strcasecmp((feirantes[i].diaFeira), "sexta-feira") == 0) feirantes_por_dia[5]++;
-    if(strcasecmp((feirantes[i].diaFeira), "sabado") == 0) feirantes_por_dia[6]++;
-}
+    for(int i = 0; i < quantidade; i++){
+        if(strcasecmp((feirantes[i].diaFeira), "domingo") == 0) feirantes_por_dia[0]++;
+        if(strcasecmp((feirantes[i].diaFeira), "segunda-feira") == 0) feirantes_por_dia[1]++;
+        if(strcasecmp((feirantes[i].diaFeira), "terca-feira") == 0) feirantes_por_dia[2]++;
+        if(strcasecmp((feirantes[i].diaFeira), "quarta-feira") == 0) feirantes_por_dia[3]++;
+        if(strcasecmp((feirantes[i].diaFeira), "quinta-feira") == 0) feirantes_por_dia[4]++;
+        if(strcasecmp((feirantes[i].diaFeira), "sexta-feira") == 0) feirantes_por_dia[5]++;
+        if(strcasecmp((feirantes[i].diaFeira), "sabado") == 0) feirantes_por_dia[6]++;
+    }
 
     system("cls");
     printf("=====Quantidade de feirantes por dia da semana=====\n");
